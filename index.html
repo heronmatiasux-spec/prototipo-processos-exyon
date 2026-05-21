@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>E-XYON | Processos</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app" data-menu="closed">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">inovação<br />abusiva</span>
+        <span class="brand-name">E-XYON</span>
+      </div>
+      <div class="user-chip">MS <span>⌄</span></div>
+    </header>
+
+    <aside class="sidebar" aria-label="Lista de processos">
+      <button class="toggle-menu" type="button" aria-label="Abrir lista de processos">
+        <span></span>
+      </button>
+      <div class="sidebar-inner">
+        <p class="sidebar-label">Lista inicial</p>
+        <h2>Processos</h2>
+        <div class="process-list" id="processList"></div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <section class="case-header">
+        <div class="case-title">
+          <h1>Processo Nº</h1>
+          <div class="blocked title-block"></div>
+          <p>Laudo com Indicativos de Litigância Predatória</p>
+        </div>
+        <div class="case-meta" aria-label="Dados principais do processo">
+          <label>Parte</label><span class="blocked sm"></span>
+          <label>CPF</label><span class="blocked xs"></span>
+          <label>Polo Ativo</label>
+        </div>
+        <div class="header-actions" aria-label="Ações do laudo">
+          <button type="button" aria-label="Imprimir">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v7H7zM7 11h.01"/></svg>
+          </button>
+          <button type="button" aria-label="Visualizar laudo impresso">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <aside class="info-panel">
+          <article class="card">
+            <h2>Características do Processo</h2>
+            <dl id="caseFacts"></dl>
+          </article>
+          <article class="card">
+            <h2>Pedidos</h2>
+            <dl id="caseRequests"></dl>
+          </article>
+          <article class="card">
+            <h2>Documentos</h2>
+            <dl id="caseDocs"></dl>
+          </article>
+          <article class="card blue-note">
+            <h2>Região inicial</h2>
+            <p id="regionNote">Região compatível com o polo ativo informado.</p>
+          </article>
+        </aside>
+
+        <section class="analysis">
+          <div class="data-stack">
+            <article class="data-card">
+              <h2>Dados do Processo</h2>
+              <div class="table-scroll" aria-label="Tabela Dados do Processo com rolagem horizontal">
+              <div class="wide-table">
+                <div class="table-head cols-8">
+                  <span>Empresa polo Passivo</span>
+                  <span>Nº Processo</span>
+                  <span>Data de distribuição</span>
+                  <span>Siga Tribunal</span>
+                  <span>Município</span>
+                  <span>Ação judicial</span>
+                  <span>Assunto</span>
+                  <span>Advogado</span>
+                </div>
+                <div class="table-row cols-8">
+                  <span class="blocked"></span><span class="blocked"></span><span class="blocked"></span><span class="blocked"></span>
+                  <span class="blocked"></span><span class="blocked"></span><span class="blocked"></span><span class="blocked"></span>
+                </div>
+              </div>
+              </div>
+            </article>
+
+            <article class="data-card">
+              <h2>Processos Relacionados <span id="relatedCount">(Total 9)</span></h2>
+              <div class="table-scroll" aria-label="Tabela Processos Relacionados com rolagem horizontal">
+              <div class="wide-table related" id="relatedTable"></div>
+              </div>
+              <div class="table-footer">
+                <span id="resultsText">Exibindo 1-9 de 9 Processos</span>
+                <span>Processos por página <button>10</button></span>
+              </div>
+            </article>
+          </div>
+
+          <article class="recommendations">
+            <h2>Recomendações CNJ</h2>
+            <div id="accordion" class="accordion"></div>
+          </article>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
