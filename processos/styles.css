@@ -250,7 +250,7 @@ body {
 
 .back-button {
   height: 28px;
-  margin: 0 0 12px 2px;
+  margin: 0 0 28px 2px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -280,38 +280,41 @@ body {
 .case-header {
   width: 100%;
   display: grid;
-  grid-template-columns: max-content max-content max-content 1fr;
-  align-items: center;
-  gap: 12px;
-  padding: 0 2px 14px;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: start;
+  gap: 18px;
+  padding: 0 2px 18px;
 }
 
 .case-title {
   display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  column-gap: 5px;
-  row-gap: 4px;
+  gap: 10px;
+  min-width: 0;
+}
+
+.case-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
 }
 
 .case-header h1 {
-  margin: 0 0 4px;
-  display: inline-block;
+  margin: 0;
   color: var(--blue);
-  font-size: 15px;
+  font-size: 22px;
   font-weight: 700;
 }
 
 .case-title strong {
   color: #7d8794;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
 
 .case-header p {
-  grid-column: 1 / -1;
   margin: 0;
   color: #6d7887;
   font-size: 13px;
@@ -330,14 +333,13 @@ body {
 .blocked.xs { width: 72px; }
 
 .case-meta {
-  display: grid;
-  grid-template-columns: auto 170px auto 108px auto;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 6px 10px;
   color: #7d8896;
   font-size: 13px;
   min-width: 0;
-  padding-top: 18px;
 }
 
 .case-meta strong {
@@ -350,7 +352,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding-top: 18px;
+  padding-top: 34px;
 }
 
 .header-actions button {

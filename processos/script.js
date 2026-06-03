@@ -239,3 +239,26 @@ accordion.addEventListener("click", (event) => {
 renderProcessButtons();
 renderAccordion();
 selectProcess(0);
+
+const demoParams = new URLSearchParams(window.location.search);
+if (demoParams.has("demoMenu")) {
+  app.dataset.menu = demoParams.get("demoMenu") === "open" ? "open" : "closed";
+}
+
+window.addEventListener("load", () => {
+  const tableScrolls = document.querySelectorAll(".table-scroll");
+  const scrollOne = Number(demoParams.get("demoScroll1") || 0);
+  const scrollTwo = Number(demoParams.get("demoScroll2") || 0);
+  if (tableScrolls[0] && scrollOne > 0) tableScrolls[0].scrollLeft = scrollOne;
+  if (tableScrolls[1] && scrollTwo > 0) tableScrolls[1].scrollLeft = scrollTwo;
+  if (demoParams.get("demoRec") === "closed") {
+    accordion.querySelector(".accordion-item")?.classList.remove("open");
+  }
+  if (demoParams.get("demoView") === "recommendations") {
+    document.querySelector(".recommendations")?.scrollIntoView({ block: "center" });
+  }
+  const demoScrollY = Number(demoParams.get("demoScrollY") || 0);
+  if (demoScrollY > 0) {
+    document.querySelector(".workspace")?.scrollTo(0, demoScrollY);
+  }
+});
