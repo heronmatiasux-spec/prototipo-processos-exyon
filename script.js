@@ -1,6 +1,7 @@
 const app = document.querySelector(".app");
 const toggle = document.querySelector(".toggle-menu");
 const processList = document.querySelector("#processList");
+const processSearch = document.querySelector("#processSearch");
 const caseFacts = document.querySelector("#caseFacts");
 const caseRequests = document.querySelector("#caseRequests");
 const caseDocs = document.querySelector("#caseDocs");
@@ -13,6 +14,16 @@ const regionNote = document.querySelector("#regionNote");
 const processes = [
   {
     id: "0000001",
+    number: "9999999-99.9999.9.99.0001",
+    party: "Parte 01",
+    cpf: "99999999999",
+    company: "Empresa 01",
+    date: "19/09/2022",
+    court: "TJPR",
+    city: "Curitiba/PR",
+    action: "Ação declaratória",
+    subject: "Cartão consignado",
+    lawyer: "Advogado 01",
     facts: [
       ["Parte", "Risco"], ["Advogado", "Sim"], ["Dano moral", "Não"],
       ["Hipossuficiência", "Não"], ["Justiça gratuita", "Sim"], ["Valor da causa", "Sim"],
@@ -31,6 +42,16 @@ const processes = [
   },
   {
     id: "0000002",
+    number: "9999999-99.9999.9.99.0002",
+    party: "Parte 02",
+    cpf: "88888888888",
+    company: "Empresa 02",
+    date: "12/10/2020",
+    court: "TJBA",
+    city: "Marau/BA",
+    action: "Revisão contratual",
+    subject: "Empréstimo pessoal",
+    lawyer: "Advogado 02",
     facts: [
       ["Parte", "Risco"], ["Advogado", "Sim"], ["Dano moral", "Sim"],
       ["Hipossuficiência", "Sim"], ["Justiça gratuita", "Sim"], ["Valor da causa", "Não"],
@@ -49,6 +70,16 @@ const processes = [
   },
   {
     id: "0000003",
+    number: "9999999-99.9999.9.99.0003",
+    party: "Parte 03",
+    cpf: "77777777777",
+    company: "Empresa 03",
+    date: "03/03/2020",
+    court: "TJRS",
+    city: "Canoas/RS",
+    action: "Obrigação de fazer",
+    subject: "Cobrança indevida",
+    lawyer: "Advogado 03",
     facts: [
       ["Parte", "Baixo"], ["Advogado", "Não"], ["Dano moral", "Não"],
       ["Hipossuficiência", "Não"], ["Justiça gratuita", "Sim"], ["Valor da causa", "Não"],
@@ -66,6 +97,26 @@ const processes = [
     region: "Sem sinais críticos no cruzamento inicial de município e parte."
   }
 ];
+
+const relatedCompanies = [
+  "Empresa 01",
+  "Empresa 02",
+  "Empresa 03",
+  "Empresa 04",
+  "Empresa 05",
+  "Empresa 06",
+  "Empresa 07",
+  "Empresa 08",
+  "Empresa 09",
+  "Empresa 10"
+];
+
+const cities = ["Curitiba/PR", "Maringá/PR", "Salvador/BA", "Canoas/RS", "Recife/PE", "Goiânia/GO", "Fortaleza/CE"];
+const subjects = ["Cartão consignado", "Empréstimo pessoal", "Cobrança indevida", "Contrato bancário", "Dano moral"];
+
+function abstractCaseNumber(index) {
+  return `9999999-99.9999.9.99.${String(index + 1).padStart(4, "0")}`;
+}
 
 const recommendations = [
   ["Requerimento de justiça gratuita apresentado sem justificativa, comprovação ou evidência mínima de necessidade econômica.", true],
@@ -89,8 +140,16 @@ function renderProcessButtons() {
   const repeated = Array.from({ length: 42 }, (_, i) => i);
   processList.innerHTML = repeated.map((_, index) => {
     const process = processes[index % processes.length];
-    return `<button class="process-item${index === 0 ? " active" : ""}" data-index="${index % processes.length}" data-list-index="${index}">${process.id}</button>`;
+    const number = index === 0 ? process.number : abstractCaseNumber(index);
+    return `<button class="process-item${index === 0 ? " active" : ""}" data-index="${index % processes.length}" data-list-index="${index}">${number}</button>`;
   }).join("");
+}
+
+function filterProcessList(query) {
+  const term = query.trim();
+  document.querySelectorAll(".process-item").forEach((item) => {
+    item.hidden = term.length > 0 && !item.textContent.includes(term);
+  });
 }
 
 function renderRelated(process) {
@@ -100,12 +159,21 @@ function renderRelated(process) {
       <span>Siga Tribunal</span><span>Município</span><span>Ação judicial</span>
       <span>Assunto</span><span>Advogado</span><span>OAB</span>
     </div>`;
-  const tableRows = Array.from({ length: process.related }, () => `
-    <div class="table-row cols-9">
-      <span class="blocked"></span><span class="blocked"></span><span class="blocked"></span>
-      <span class="blocked"></span><span class="blocked"></span><span class="blocked"></span>
-      <span class="blocked"></span><span class="blocked"></span><span class="blocked"></span>
-    </div>`).join("");
+  const tableRows = Array.from({ length: process.related }, (_, index) => {
+    const code = abstractCaseNumber(index);
+    return `
+    <div class="table-row cols-9 text-row">
+      <span>${relatedCompanies[index % relatedCompanies.length]}</span>
+      <span>${code}</span>
+      <span>${String(10 + index).padStart(2, "0")}/10/2022</span>
+      <span>${["TJPR", "TJBA", "TJRS", "TJPE"][index % 4]}</span>
+      <span>${cities[index % cities.length]}</span>
+      <span>${index % 3 === 0 ? "Ação declaratória" : "Revisão contratual"}</span>
+      <span>${subjects[index % subjects.length]}</span>
+      <span>Advogado ${String((index % 9) + 1).padStart(2, "0")}</span>
+      <span>OAB ${String(999999 - index * 11111)}</span>
+    </div>`;
+  }).join("");
   relatedTable.innerHTML = header + tableRows;
   relatedCount.textContent = `(Total ${process.related})`;
   resultsText.textContent = `Exibindo 1-${Math.min(10, process.related)} de ${process.related} Processos`;
@@ -127,6 +195,14 @@ function renderAccordion() {
 
 function selectProcess(index, selectedItem = null) {
   const process = processes[index];
+  document.querySelector("#caseNumber").textContent = process.number;
+  document.querySelector("#caseParty").textContent = process.party;
+  document.querySelector("#caseCpf").textContent = process.cpf;
+  document.querySelector("#caseCompany").textContent = process.company;
+  document.querySelector("#caseTableNumber").textContent = process.number;
+  document.querySelector("#caseDate").textContent = process.date;
+  document.querySelector("#caseCity").textContent = process.city;
+  document.querySelector("#caseLawyer").textContent = process.lawyer;
   caseFacts.innerHTML = rows(process.facts);
   caseRequests.innerHTML = rows(process.requests);
   caseDocs.innerHTML = rows(process.docs);
@@ -150,6 +226,10 @@ processList.addEventListener("click", (event) => {
   selectProcess(Number(button.dataset.index), button);
 });
 
+processSearch.addEventListener("input", (event) => {
+  filterProcessList(event.target.value);
+});
+
 accordion.addEventListener("click", (event) => {
   const trigger = event.target.closest(".accordion-trigger");
   if (!trigger) return;
@@ -159,3 +239,26 @@ accordion.addEventListener("click", (event) => {
 renderProcessButtons();
 renderAccordion();
 selectProcess(0);
+
+const demoParams = new URLSearchParams(window.location.search);
+if (demoParams.has("demoMenu")) {
+  app.dataset.menu = demoParams.get("demoMenu") === "open" ? "open" : "closed";
+}
+
+window.addEventListener("load", () => {
+  const tableScrolls = document.querySelectorAll(".table-scroll");
+  const scrollOne = Number(demoParams.get("demoScroll1") || 0);
+  const scrollTwo = Number(demoParams.get("demoScroll2") || 0);
+  if (tableScrolls[0] && scrollOne > 0) tableScrolls[0].scrollLeft = scrollOne;
+  if (tableScrolls[1] && scrollTwo > 0) tableScrolls[1].scrollLeft = scrollTwo;
+  if (demoParams.get("demoRec") === "closed") {
+    accordion.querySelector(".accordion-item")?.classList.remove("open");
+  }
+  if (demoParams.get("demoView") === "recommendations") {
+    document.querySelector(".recommendations")?.scrollIntoView({ block: "center" });
+  }
+  const demoScrollY = Number(demoParams.get("demoScrollY") || 0);
+  if (demoScrollY > 0) {
+    document.querySelector(".workspace")?.scrollTo(0, demoScrollY);
+  }
+});
