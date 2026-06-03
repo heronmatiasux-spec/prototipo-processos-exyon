@@ -179,14 +179,10 @@ a.total-card {
   place-items: center;
 }
 
-.metric-icon svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.metric-icon img {
+  width: 42px;
+  height: 42px;
+  display: block;
 }
 
 .total-processes .metric-icon {
@@ -327,7 +323,7 @@ a.total-card {
 }
 
 .map-stage img {
-  width: 342px;
+  width: 360px;
   max-width: 96%;
   height: auto;
   display: block;
